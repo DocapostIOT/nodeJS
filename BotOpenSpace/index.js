@@ -64,7 +64,7 @@ var j = schedule.scheduleJob(rule, function(){
   //    console.log(str.substring(0,str.search('</span>')));
     }while (str.search('<li>') < str.search('</ul>'))
     console.log(rep);
-    var reques = 'https://slack.com/api/chat.postMessage?token=xoxp-5188345088-81170677831-95185056723-e80de9c8bb94e0ddea8d0c1e55ddfbe2&&channel=C055JA58W&text='+rep
+    var reques = 'https://slack.com/api/chat.postMessage?token=INSERT_KEY&text='+rep
     request(reques, function (error, response, body) {
       console.log(error);
       console.log(response.body);
@@ -181,7 +181,7 @@ function insert(sender, name, date, dateEnd){
   var calendar = google.calendar('v3');
   calendar.events.insert({
     auth: oauth2Client,
-    calendarId: 'ed8c5b0idspn3ps661fvh2tv74@group.calendar.google.com',
+    calendarId: 'INSERT_KEY@group.calendar.google.com',
     resource: event,
   }, function(err, event) {
     if (err) {
@@ -219,7 +219,7 @@ function checkDate(auth,sender,date, date2) {
   var calendar = google.calendar('v3');
   calendar.events.list({
     auth: auth,
-    calendarId: 'ed8c5b0idspn3ps661fvh2tv74@group.calendar.google.com',
+    calendarId: 'INSERT_KEY@group.calendar.google.com',
     timeMin: (new Date()).toISOString(),
     maxResults: 100,
     singleEvents: true,
@@ -363,7 +363,7 @@ app.post('/test/', function (req, res) {
   //    console.log(str.substring(0,str.search('</span>')));
     }while (str.search('<li>') < str.search('</ul>'))
     console.log(rep);
-    var reques = 'https://slack.com/api/chat.postMessage?token=xoxp-5188345088-81170677831-95185056723-e80de9c8bb94e0ddea8d0c1e55ddfbe2&&channel=C055JA58W&text='+rep
+    var reques = 'https://slack.com/api/chat.postMessage?token=INSERT_KEY&&channel=C055JA58W&text='+rep
     request(reques, function (error, response, body) {
       console.log(error);
       console.log(response.body);
@@ -393,7 +393,7 @@ function parseMessage(sender, text){
   if (text.endsWith('h')){
     text = text.concat('00');
   }
-  var client = new recastai.Client('4ae3e9426700577fb2bc44efaffb8cb3', 'fr')
+  var client = new recastai.Client('INSERT_KEY', 'fr')
   client.textRequest(text)
   .then(function(res)  {
 
@@ -545,7 +545,7 @@ function sendAbs(sender, res){
         var text = 'Bonjour je vous informe que '+ name + ' sera absent aujourd\'hui'
       }
     //  #general
-      var reques = 'https://slack.com/api/chat.postMessage?token=xoxp-5188345088-81170677831-95185056723-e80de9c8bb94e0ddea8d0c1e55ddfbe2&channel=%40'+ 'quentingras'+'&username=team%20io%20retard&text='+text
+      var reques = 'https://slack.com/api/chat.postMessage?token=INSERT_KEY&channel=%40'+ 'quentingras'+'&username=team%20io%20retard&text='+text
       request(reques, function (error, response, body) {
         if (error){
           console.log(error);
@@ -581,7 +581,7 @@ function sendlate(sender,res){
       else{
         var text = 'Bonjour je vous informe que '+ name + ' sera en retard aujourd\'hui'
       }
-      var reques = 'https://slack.com/api/chat.postMessage?token=xoxp-5188345088-81170677831-95185056723-e80de9c8bb94e0ddea8d0c1e55ddfbe2&channel=%40'+ 'quentingras'+'&username=team%20io%20retard&text='+text
+      var reques = 'https://slack.com/api/chat.postMessage?token=INSERT_KEY&channel=%40'+ 'quentingras'+'&username=team%20io%20retard&text='+text
       request(reques, function (error, response, body) {
         if (error){
           console.log(error);

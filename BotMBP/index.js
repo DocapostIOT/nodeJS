@@ -195,7 +195,7 @@ function sendBPLast(sender, last){
 
 
 function sendLetterBox(sender, adresse){
-  var reques = 'https://maps.googleapis.com/maps/api/geocode/json?address='+ adresse +'&key=AIzaSyBQjXTXhnmtZqlKlLnQ9QPrGh5nyvbZ3-Y';
+  var reques = 'https://maps.googleapis.com/maps/api/geocode/json?address='+ adresse +'&key=INSERT_KEY';
   request(reques, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var tmp = JSON.parse(body);
@@ -209,9 +209,9 @@ function sendLetterBox(sender, adresse){
 function loopFindLetter(sender, radius, lat, lng){
   var reques;
   if(lng === 0)
-    reques = 'https://datanova.legroupe.laposte.fr/api/records/1.0/search/?dataset=laposte_boiteruehdl&apikey=9c359f295ae2cf200044a763b3aa5ab8149cd730bb56591cbd876073&geofilter.distance=' +lat + ','+radius+'&rows=1000';
+    reques = 'https://datanova.legroupe.laposte.fr/api/records/1.0/search/?dataset=laposte_boiteruehdl&apikey=INSERT_KEY&geofilter.distance=' +lat + ','+radius+'&rows=1000';
   else
-    reques = 'https://datanova.legroupe.laposte.fr/api/records/1.0/search/?dataset=laposte_boiteruehdl&apikey=9c359f295ae2cf200044a763b3aa5ab8149cd730bb56591cbd876073&geofilter.distance=' +lat + ',' + lng + ','+radius+'&rows=1000';
+    reques = 'https://datanova.legroupe.laposte.fr/api/records/1.0/search/?dataset=laposte_boiteruehdl&apikey=INSERT_KEY&geofilter.distance=' +lat + ',' + lng + ','+radius+'&rows=1000';
   console.log(reques);
   request(reques, function (error, response, body) {
     if (!error && response.statusCode == 200) {
