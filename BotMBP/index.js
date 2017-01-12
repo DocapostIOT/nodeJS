@@ -43,7 +43,7 @@ app.get('/webhook', function(req, res) {
 
 
 
-
+//point d'entré
 app.post('/webhook/', function (req, res) {
 
     let messaging_events = req.body.entry[0].messaging
@@ -55,6 +55,7 @@ app.post('/webhook/', function (req, res) {
             let text = event.message.text
             parseMessage(sender,text.substring(0, 200))
         }
+        //elt joint au message
         else if (event.message && event.message.attachments && event.message.attachments[0].payload && event.message.attachments[0].payload.coordinates) {
           console.log(event.message.attachments[0].payload);
           var lat = event.message.attachments[0].payload.coordinates.lat
@@ -71,6 +72,7 @@ app.post('/webhook/', function (req, res) {
         else if (event.message &&event.message.quick_reply && event.message.quick_reply.payload && event.message.quick_reply.payload === 'LAST_LOC' ){
 
         }
+        //callback button
         else if (event.postback && event.postback.payload){
           if (event.postback.payload === 'CLOSE_DESK'){
             askForLocation(sender);
@@ -87,6 +89,8 @@ app.post('/webhook/', function (req, res) {
     res.sendStatus(200)
 })
 
+
+//parsing du message avec recast
 function parseMessage(sender, text){
   var recastai = require('recastai')
 
@@ -96,10 +100,6 @@ function parseMessage(sender, text){
       console.log('error');
     } else {
 
-      console.log("===============================");
-      console.log(sender);
-      console.log(res);
-      console.log(res.sentence());
       if(res.intent() === 'adresse'){
         locTable.put(sender,res.source);
         if (lookingFor.has(sender)){
@@ -172,7 +172,7 @@ function parseMessage(sender, text){
 }
 
 
-
+//envoie de la boite aux lettre la plus proche de la derniere position
 function sendLetterLast(sender, last){
   console.log(last);
   if(last.includes(',')){
@@ -183,6 +183,8 @@ function sendLetterLast(sender, last){
   }
 }
 
+
+//envoie du bureau de poste le plus proche de la derniere position
 function sendBPLast(sender, last){
   console.log(last);
   if(last.includes(',')){
@@ -194,6 +196,7 @@ function sendBPLast(sender, last){
 }
 
 
+//envoie de la boite aux lettre la plus proche de l'adresse
 function sendLetterBox(sender, adresse){
   var reques = 'https://maps.googleapis.com/maps/api/geocode/json?address='+ adresse +'&key=INSERT_KEY';
   request(reques, function (error, response, body) {
@@ -206,6 +209,8 @@ function sendLetterBox(sender, adresse){
   });
 }
 
+
+//recherche du bureau de poste
 function loopFindLetter(sender, radius, lat, lng){
   var reques;
   if(lng === 0)
@@ -285,6 +290,8 @@ function sendBPLocation(sender, res){
   }
 }
 
+
+//envoie de l'itineraire
 function sendItineraire(sender){
   if(baltable.has(sender)){
     sendTextMessage(sender,'https://www.google.fr/maps/dir//' + baltable.get(sender));
@@ -305,6 +312,8 @@ function sendItineraire(sender){
 
 }
 
+
+//envoie de l'horaire de fermeture
 function sendHoraire_ferm(sender){
   if (!hashtable.has(sender)){
     sendTextMessage(sender, 'Aucun bureau de poste en memoire');
@@ -332,6 +341,8 @@ function sendHoraire_ferm(sender){
   })
 }
 
+
+//envoie des horaires
 function sendHoraire(sender){
   if (!hashtable.has(sender)){
     sendTextMessage(sender, 'Aucun bureau de poste en memoire');
@@ -435,6 +446,8 @@ customeServiceMessage(sender);
 }
 
 
+
+//envoie du bureau de poste le plus proche de l'adresse
 function getClosestDesk(sender, adresse){
   var reques = 'https://maps.googleapis.com/maps/api/geocode/json?address='+ adresse +'&key=INSERT_KEY';
   request(reques, function (error, response, body) {
@@ -447,6 +460,8 @@ console.log(body);
   });
 }
 
+
+//recherche de la position
 function loopFindAdresse(sender, radius, lat, lng){
   var reques = '';
   if (lng === 0)
@@ -514,6 +529,9 @@ function loopFindAdresse(sender, radius, lat, lng){
 
 }
 
+
+//envoie du bureau de poste sur une rue
+
 function sendLocation(sender, res){
   var reques = 'https://datanova.legroupe.laposte.fr/api/records/1.0/search/?dataset=laposte_poincont2'
   for (let i = 0; i <res.sentence().entities.length; i++){
@@ -541,12 +559,15 @@ function sendLocation(sender, res){
 }
 
 
+//historique
 function saveData(sender, data){
   hashtable.remove(sender);
   baltable.remove(sender);
   hashtable.put(sender, data);
 }
 
+
+//ajouter les horaires au messages
 function sendTextMessageWithHoraire(sender, text) {
   if (!hashtable.has(sender)){
     sendTextMessage(sender, 'Aucun bureau de poste en memoire');
@@ -571,6 +592,8 @@ function sendTextMessageWithHoraire(sender, text) {
   })
 }
 
+
+//envoie d'un message
 function sendTextMessage(sender, text) {
   console.log(text);
     let messageData = { text:text }
@@ -593,6 +616,8 @@ function sendTextMessage(sender, text) {
 }
 
 
+
+// envoie d'une demande de localisation
 function askForLocation(sender){
   let messageData = {
     text:'Merci de partager votre localisation ou entrez votre adresse',
@@ -625,8 +650,6 @@ function askForLocation(sender){
 }
 
 function customeServiceMessage(sender){
-
-
   var messageData = {
     attachment:{
      type:'template',
