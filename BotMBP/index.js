@@ -232,7 +232,7 @@ function loopFindLetter(sender, radius, lat, lng){
         for(let i = 1; i < tmp2.records.length;i++){
           reques = reques + '|' + tmp2.records[i].fields.latlong[0] + ',' + tmp2.records[i].fields.latlong[1];
         }
-        reques = reques + '&language=fr-FR&key=AIzaSyBQjXTXhnmtZqlKlLnQ9QPrGh5nyvbZ3-Y';
+        reques = reques + '&language=fr-FR&key=INSERT_KEY';
         request(reques, function (error, response, body) {
           if (!error && response.statusCode == 200) {
             console.log(body);
@@ -436,7 +436,7 @@ customeServiceMessage(sender);
 
 
 function getClosestDesk(sender, adresse){
-  var reques = 'https://maps.googleapis.com/maps/api/geocode/json?address='+ adresse +'&key=AIzaSyBQjXTXhnmtZqlKlLnQ9QPrGh5nyvbZ3-Y';
+  var reques = 'https://maps.googleapis.com/maps/api/geocode/json?address='+ adresse +'&key=INSERT_KEY';
   request(reques, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var tmp = JSON.parse(body);
@@ -473,7 +473,7 @@ function loopFindAdresse(sender, radius, lat, lng){
         for(let i = 1; i < tmp2.records.length;i++){
           reques = reques + '|' + tmp2.records[i].fields.latitude + ',' + tmp2.records[i].fields.longitude;
         }
-        reques = reques + '&language=fr-FR&key=AIzaSyBQjXTXhnmtZqlKlLnQ9QPrGh5nyvbZ3-Y';
+        reques = reques + '&language=fr-FR&key=INSERT_KEY';
         console.log(reques);
         request(reques, function (error, response, body) {
           if (!error && response.statusCode == 200) {
